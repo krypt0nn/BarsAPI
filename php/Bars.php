@@ -8,7 +8,6 @@ namespace BarsAPI;
 class Bars
 {
     protected string $url; // URL сервера запросов к API
-    protected string $cookie_tmp; // Временный файл хранения cookie
 
     public User $user; // Объект представления информации о пользователе
 
@@ -30,7 +29,6 @@ class Bars
     public function __construct (string $login, string $password, string $diary_url = 'https://xn--80atdl2c.xn--33-6kcadhwnl3cfdx.xn--p1ai')
     {
         $this->url = $diary_url;
-        $this->cookie_tmp = dirname (__DIR__) .'/tmp/cookie-'. rand (100000, 999999) .'.tmp';
 
         $auth = $this->request ('login', [
             'login'    => $login,
@@ -49,6 +47,8 @@ class Bars
     public function logout (): void
     {
         $this->request ('logout');
+
+        unlink (dirname (__DIR__) .'/session.tmp');
     }
 
     /**
@@ -75,8 +75,8 @@ class Bars
                 CURLOPT_SSL_VERIFYPEER => false,
                 CURLOPT_FOLLOWLOCATION => true,
 
-                CURLOPT_COOKIEJAR  => $this->cookie_tmp,
-                CURLOPT_COOKIEFILE => $this->cookie_tmp
+                CURLOPT_COOKIEJAR  => dirname (__DIR__) .'/session.tmp',
+                CURLOPT_COOKIEFILE => dirname (__DIR__) .'/session.tmp'
             ]);
 
             $response = curl_exec ($curl);
