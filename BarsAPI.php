@@ -30,15 +30,15 @@ if (!extension_loaded ('curl'))
     throw new \Exception ('You must have php curl extension to use BarsAPI');
 
 # Удаляем временную папку
-if (is_dir ('tmp'))
+if (is_dir (__DIR__ .'/tmp'))
 {
-    array_map ('unlink', glob ('tmp/*'));
+    array_map ('unlink', glob (__DIR__ .'/tmp/*'));
 
-    rmdir ('tmp');
+    rmdir (__DIR__ .'/tmp');
 }
 
 # Создаём временную папку для хранения сессий
-mkdir ('tmp');
+mkdir (__DIR__ .'/tmp');
 
 # Подключаем файлы библиотеки
 require 'php/User.php';

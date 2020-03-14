@@ -30,7 +30,7 @@ class Bars
     public function __construct (string $login, string $password, string $diary_url = 'https://xn--80atdl2c.xn--33-6kcadhwnl3cfdx.xn--p1ai')
     {
         $this->url = $diary_url;
-        $this->cookie_tmp = 'tmp/cookie-'. rand (100000, 999999) .'.tmp';
+        $this->cookie_tmp = dirname (__DIR__) .'/tmp/cookie-'. rand (100000, 999999) .'.tmp';
 
         $auth = $this->request ('login', [
             'login'    => $login,
